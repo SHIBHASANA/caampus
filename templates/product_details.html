@@ -1,0 +1,589 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.title }} | CampusKart{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row g-5">
+
+        <!-- ================= PRODUCT IMAGE ================= -->
+
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <img src="{{ product.image.url }}"
+                     class="img-fluid"
+                     style="height:500px;object-fit:cover;"
+                     alt="{{ product.title }}">
+
+            </div>
+
+            <!-- Thumbnail Gallery -->
+
+            <div class="d-flex justify-content-center gap-3 mt-3">
+
+                <img src="{{ product.image.url }}"
+                     class="border rounded-3 p-1 shadow-sm"
+                     width="80"
+                     height="80"
+                     style="object-fit:cover;cursor:pointer;">
+
+                <img src="{{ product.image.url }}"
+                     class="border rounded-3 p-1 shadow-sm"
+                     width="80"
+                     height="80"
+                     style="object-fit:cover;cursor:pointer;">
+
+                <img src="{{ product.image.url }}"
+                     class="border rounded-3 p-1 shadow-sm"
+                     width="80"
+                     height="80"
+                     style="object-fit:cover;cursor:pointer;">
+
+            </div>
+
+        </div>
+
+        <!-- ================= PRODUCT DETAILS ================= -->
+
+        <div class="col-lg-7">
+
+            <span class="badge bg-dark px-3 py-2 rounded-pill">
+
+                {{ product.category.name }}
+
+            </span>
+
+            <h1 class="fw-bold mt-3">
+
+                {{ product.title }}
+
+            </h1>
+
+            <!-- Rating -->
+
+            <div class="mt-2 mb-3">
+
+                {% if average %}
+
+                    ⭐⭐⭐⭐⭐
+
+                    <span class="fw-semibold">
+
+                        {{ average|floatformat:1 }}
+
+                    </span>
+
+                    <span class="text-muted">
+
+                        ({{ reviews|length }} Reviews)
+
+                    </span>
+
+                {% else %}
+
+                    <span class="text-muted">
+
+                        No Ratings Yet
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Price -->
+
+            <div class="mb-4">
+
+                <h2 class="fw-bold text-dark">
+
+                    ₹{{ product.price }}
+
+                </h2>
+
+                {% if product.negotiable %}
+
+                    <span class="badge bg-success">
+
+                        Negotiable
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Seller Card -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-body">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center"
+                             style="width:60px;height:60px;font-size:24px;">
+
+                            {{ product.seller.username|first|upper }}
+
+                        </div>
+
+                        <div class="ms-3">
+
+                            <h5 class="mb-1">
+
+                                {{ product.seller.username }}
+
+                            </h5>
+
+                            <p class="text-muted mb-1">
+
+                                {{ product.college.name }}
+
+                            </p>
+
+                            <small class="text-success">
+
+                                ✔ Verified Student
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Product Information -->
+
+            <div class="row g-3 mb-4">
+
+                <div class="col-6">
+
+                    <div class="card border-0 shadow-sm rounded-4">
+
+                        <div class="card-body text-center">
+
+                            <i class="fas fa-box fa-2x mb-3"></i>
+
+                            <h6>Condition</h6>
+
+                            <strong>{{ product.condition }}</strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+
+                    <div class="card border-0 shadow-sm rounded-4">
+
+                        <div class="card-body text-center">
+
+                            <i class="fas fa-building fa-2x mb-3"></i>
+
+                            <h6>Department</h6>
+
+                            <strong>{{ product.department }}</strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+
+                    <div class="card border-0 shadow-sm rounded-4">
+
+                        <div class="card-body text-center">
+
+                            <i class="fas fa-graduation-cap fa-2x mb-3"></i>
+
+                            <h6>Semester</h6>
+
+                            <strong>{{ product.semester }}</strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+
+                    <div class="card border-0 shadow-sm rounded-4">
+
+                        <div class="card-body text-center">
+
+                            <i class="fas fa-book fa-2x mb-3"></i>
+
+                            <h6>Subject</h6>
+
+                            <strong>{{ product.subject }}</strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Description -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-3">
+
+                        Product Description
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        {{ product.description }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+
+            <div class="d-grid gap-3">
+
+                <a href="{% url 'add_to_cart' product.id %}"
+                   class="btn btn-dark btn-lg rounded-4">
+
+                    <i class="fas fa-shopping-cart me-2"></i>
+
+                    Add to Cart
+
+                </a>
+
+                <button class="btn btn-warning btn-lg rounded-4">
+
+                    <i class="fas fa-bolt me-2"></i>
+
+                    Buy Now
+
+                </button>
+
+                <a href="{% url 'add_to_wishlist' product.id %}"
+                   class="btn btn-outline-dark btn-lg rounded-4">
+
+                    <i class="fas fa-heart me-2"></i>
+
+                    Add to Wishlist
+
+                </a>
+
+                {% if user.is_authenticated and user != product.seller %}
+
+                <a href="{% url 'start_chat' product.id %}"
+                   class="btn btn-outline-secondary btn-lg rounded-4">
+
+                    <i class="fas fa-comments me-2"></i>
+
+                    Chat with Seller
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+    <!-- ================= REVIEWS SECTION ================= -->
+
+<div class="row">
+
+    <div class="col-lg-8">
+
+        <h2 class="fw-bold mb-4">
+
+            Customer Reviews
+
+        </h2>
+
+        {% if average %}
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+            <div class="card-body text-center py-4">
+
+                <h1 class="display-4 fw-bold">
+
+                    {{ average|floatformat:1 }}
+
+                </h1>
+
+                <h5 class="text-warning">
+
+                    ⭐⭐⭐⭐⭐
+
+                </h5>
+
+                <p class="text-muted">
+
+                    Based on {{ reviews|length }} Reviews
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        {% for review in reviews %}
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <h5 class="mb-1">
+
+                            {{ review.user.username }}
+
+                        </h5>
+
+                        <small class="text-muted">
+
+                            {{ review.created_at|date:"d M Y" }}
+
+                        </small>
+
+                    </div>
+
+                    <div class="text-warning fs-5">
+
+                        {% for i in "12345" %}
+
+                            {% if forloop.counter <= review.rating %}
+
+                                ⭐
+
+                            {% else %}
+
+                                ☆
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <p class="mb-0">
+
+                    {{ review.comment }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-light border rounded-4">
+
+            No reviews yet.
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+
+    <!-- WRITE REVIEW -->
+
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow rounded-4 sticky-top"
+             style="top:100px;">
+
+            <div class="card-body p-4">
+
+                <h4 class="fw-bold mb-4">
+
+                    Write Review
+
+                </h4>
+
+                {% if user.is_authenticated %}
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Rating
+
+                        </label>
+
+                        {{ form.rating }}
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+
+                            Review
+
+                        </label>
+
+                        {{ form.comment }}
+
+                    </div>
+
+                    <button class="btn btn-dark w-100 btn-lg rounded-4">
+
+                        Submit Review
+
+                    </button>
+
+                </form>
+
+                {% else %}
+
+                <div class="alert alert-warning">
+
+                    Login to write a review.
+
+                </div>
+
+                <a href="{% url 'login' %}"
+
+                   class="btn btn-dark w-100 rounded-4">
+
+                    Login
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<hr class="my-5">
+
+
+<!-- ================= RELATED PRODUCTS ================= -->
+
+<h2 class="fw-bold mb-4">
+
+    Related Products
+
+</h2>
+
+<div class="row">
+
+    {% for item in related_products %}
+
+    <div class="col-lg-3 col-md-6 mb-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <a href="{% url 'product_details' item.id %}">
+
+                <img src="{{ item.image.url }}"
+                     class="card-img-top"
+                     style="height:220px;object-fit:cover;">
+
+            </a>
+
+            <div class="card-body">
+
+                <span class="badge bg-dark">
+
+                    {{ item.category.name }}
+
+                </span>
+
+                <h5 class="mt-3">
+
+                    {{ item.title }}
+
+                </h5>
+
+                <h4 class="fw-bold">
+
+                    ₹{{ item.price }}
+
+                </h4>
+
+                <div class="d-grid mt-3">
+
+                    <a href="{% url 'product_details' item.id %}"
+
+                       class="btn btn-outline-dark rounded-3">
+
+                        View Product
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="col-12">
+
+        <div class="alert alert-light rounded-4">
+
+            No related products available.
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+
+        <!-- Left Branding -->
+
+        <div class="auth-left">
+
+            <h1>
+                CampusKart
+            </h1>
+
+            <p>
+                Buy, sell and connect with students in your campus.
+            </p>
+
+
+            <img src="{% static 'images/student.png' %}"
+                 class="auth-image">
+
+        </div>
+
+
+
+
+        <!-- Login Card -->
+
+        <div class="auth-card">
+
+
+            <h2>
+                Welcome Back 👋
+            </h2>
+
+            <p class="text-muted">
+                Login to continue shopping
+            </p>
+
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="input-box">
+
+                    <label>
+                        Username
+                    </label>
+
+                    <input type="text"
+                           name="username"
+                           placeholder="Enter username"
+                           required>
+
+                </div>
+
+
+
+                <div class="input-box">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input type="password"
+                           name="password"
+                           placeholder="Enter password"
+                           required>
+
+                </div>
+
+
+
+
+                <button class="auth-btn">
+
+                    Login
+
+                </button>
+
+
+            </form>
+
+
+
+            <p class="bottom-text">
+
+                Don't have an account?
+
+                <a href="{% url 'register' %}">
+                    Register
+                </a>
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

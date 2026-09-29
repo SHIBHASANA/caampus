@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Profile | CampusKart{% endblock %}
+
+{% block content %}
+
+<div class="ck-profile-page">
+
+    <!-- =========================
+         PROFILE HEADER
+    ========================== -->
+
+    <section class="ck-profile-header">
+
+        <div class="ck-profile-banner">
+            <div class="ck-banner-overlay"></div>
+        </div>
+
+        <div class="ck-profile-header-inner">
+
+            <!-- Profile Photo -->
+            <div class="ck-avatar-section">
+
+                {% if profile.profile_image %}
+                    <img
+                        src="{{ profile.profile_image.url }}"
+                        alt="Profile Photo"
+                        class="ck-profile-avatar">
+                {% else %}
+                    <div class="ck-profile-avatar ck-profile-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                {% endif %}
+
+                <label
+                    for="id_profile_image"
+                    class="ck-avatar-edit"
+                    title="Change profile photo">
+
+                    <i class="fas fa-camera"></i>
+
+                </label>
+
+            </div>
+
+
+            <!-- User Information -->
+            <div class="ck-profile-user-info">
+
+                <span class="ck-profile-label">
+                    STUDENT ACCOUNT
+                </span>
+
+                <h1>
+                    {% if request.user.get_full_name %}
+                        {{ request.user.get_full_name }}
+                    {% else %}
+                        {{ request.user.username }}
+                    {% endif %}
+                </h1>
+
+                <p class="ck-profile-username">
+                    <i class="fas fa-at"></i>
+                    {{ request.user.username }}
+                </p>
+
+                <div class="ck-profile-student-badge">
+                    <i class="fas fa-graduation-cap"></i>
+                    CampusKart Student
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PROFILE BODY
+    ========================== -->
+
+    <main class="ck-profile-body">
+
+        <div class="ck-profile-layout">
+
+
+            <!-- =========================
+                 LEFT CONTENT
+            ========================== -->
+
+            <section class="ck-profile-main-card">
+
+                <div class="ck-profile-card-header">
+
+                    <div>
+
+                        <span class="ck-section-label">
+                            ACCOUNT INFORMATION
+                        </span>
+
+                        <h2>
+                            Personal Details
+                        </h2>
+
+                        <p>
+                            Keep your CampusKart information up to date.
+                        </p>
+
+                    </div>
+
+                    <div class="ck-section-icon">
+                        <i class="fas fa-user-edit"></i>
+                    </div>
+
+                </div>
+
+
+                <!-- FORM -->
+
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="ck-profile-form">
+
+                    {% csrf_token %}
+
+
+                    {% for field in form %}
+
+                        <div class="ck-form-field">
+
+                            <label
+                                for="{{ field.id_for_label }}"
+                                class="ck-form-label">
+
+                                {{ field.label }}
+
+                            </label>
+
+
+                            {% if field.name == "profile_image" %}
+
+                                <!-- CUSTOM IMAGE UPLOAD -->
+
+                                <div class="ck-image-upload">
+
+                                    <div class="ck-upload-icon">
+                                        <i class="fas fa-camera"></i>
+                                    </div>
+
+                                    <div class="ck-upload-text">
+
+                                        <strong>
+                                            Change profile photo
+                                        </strong>
+
+                                        <span>
+                                            JPG, PNG or WEBP
+                                        </span>
+
+                                    </div>
+
+                                    {{ field }}
+
+                                </div>
+
+                            {% else %}
+
+                                {{ field }}
+
+                            {% endif %}
+
+
+                            {% if field.help_text %}
+
+                                <small class="ck-field-help">
+                                    {{ field.help_text }}
+                                </small>
+
+                            {% endif %}
+
+
+                            {% for error in field.errors %}
+
+                                <span class="ck-field-error">
+                                    {{ error }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endfor %}
+
+
+                    <!-- SAVE -->
+
+                    <button
+                        type="submit"
+                        class="ck-save-button">
+
+                        <i class="fas fa-check"></i>
+
+                        <span>
+                            Save Changes
+                        </span>
+
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- =========================
+                 RIGHT SIDEBAR
+            ========================== -->
+
+            <aside class="ck-profile-sidebar">
+
+
+                <!-- ACCOUNT CARD -->
+
+                <div class="ck-info-card">
+
+                    <div class="ck-info-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+
+                    <div class="ck-info-content">
+
+                        <span>
+                            YOUR ACCOUNT
+                        </span>
+
+                        <h3>
+                            CampusKart Profile
+                        </h3>
+
+                        <p>
+                            Your profile helps other students
+                            identify you when buying and selling.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MARKETPLACE CARD -->
+
+                <div class="ck-info-card">
+
+                    <div class="ck-info-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+
+                    <div class="ck-info-content">
+
+                        <span>
+                            MARKETPLACE
+                        </span>
+
+                        <h3>
+                            Buy & Sell
+                        </h3>
+
+                        <p>
+                            Discover useful products or sell
+                            items within your campus community.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK LINKS -->
+
+                <div class="ck-quick-links">
+
+                    <h3>
+                        Quick Links
+                    </h3>
+
+
+                    <a href="{% url 'home' %}">
+                        <span class="ck-link-icon">
+                            <i class="fas fa-home"></i>
+                        </span>
+
+                        <span>
+                            Home
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+
+
+                    <a href="{% url 'seller_dashboard' %}">
+                        <span class="ck-link-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </span>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+
+
+                    <a href="{% url 'my_products' %}">
+                        <span class="ck-link-icon">
+                            <i class="fas fa-box"></i>
+                        </span>
+
+                        <span>
+                            My Products
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+
+
+                    <a href="{% url 'wishlist' %}">
+                        <span class="ck-link-icon">
+                            <i class="fas fa-heart"></i>
+                        </span>
+
+                        <span>
+                            Wishlist
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+
+
+                    <a href="{% url 'cart' %}">
+                        <span class="ck-link-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </span>
+
+                        <span>
+                            Cart
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}

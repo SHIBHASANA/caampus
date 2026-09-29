@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    <div class="container">
+
+        <!-- Header -->
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <h2>Welcome Back, {{ user.username }} 👋</h2>
+
+                <p>Manage your products and monitor your marketplace activity.</p>
+
+            </div>
+
+            <a href="{% url 'add_product' %}" class="dashboard-btn">
+
+                <i class="fas fa-plus"></i>
+
+                Sell Product
+
+            </a>
+
+        </div>
+
+        <!-- Statistics -->
+
+        <div class="row mt-4">
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="stat-card">
+
+                    <i class="fas fa-box stat-icon"></i>
+
+                    <h3>{{ total_products }}</h3>
+
+                    <p>Total Products</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="stat-card">
+
+                    <i class="fas fa-cubes stat-icon"></i>
+
+                    <h3>{{ total_stock }}</h3>
+
+                    <p>Total Stock</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="stat-card">
+
+                    <i class="fas fa-comments stat-icon"></i>
+
+                    <h3>0</h3>
+
+                    <p>Messages</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="stat-card">
+
+                    <i class="fas fa-star stat-icon"></i>
+
+                    <h3>5.0</h3>
+
+                    <p>Seller Rating</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+
+        <div class="dashboard-section">
+
+            <h4>Quick Actions</h4>
+
+            <div class="quick-actions">
+
+                <a href="{% url 'add_product' %}" class="quick-card">
+
+                    <i class="fas fa-plus-circle"></i>
+
+                    <span>Add Product</span>
+
+                </a>
+
+                <a href="{% url 'my_products' %}" class="quick-card">
+
+                    <i class="fas fa-box-open"></i>
+
+                    <span>My Products</span>
+
+                </a>
+
+                <a href="{% url 'wishlist' %}" class="quick-card">
+
+                    <i class="fas fa-heart"></i>
+
+                    <span>Wishlist</span>
+
+                </a>
+
+                <a href="{% url 'chat_list' %}" class="quick-card">
+
+                    <i class="fas fa-comments"></i>
+
+                    <span>Chats</span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Products -->
+
+        <div class="dashboard-section mt-5">
+
+            <h4>Your Products</h4>
+
+            <div class="table-responsive">
+
+                <table class="table dashboard-table align-middle">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>Image</th>
+
+                        <th>Product</th>
+
+                        <th>Price</th>
+
+                        <th>Stock</th>
+
+                        <th>Status</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for product in products %}
+
+                    <tr>
+
+                        <td>
+
+                            <img src="{{ product.image.url }}"
+
+                                 class="table-image">
+
+                        </td>
+
+                        <td>
+
+                            <strong>{{ product.title }}</strong>
+
+                            <br>
+
+                            <small>{{ product.category.name }}</small>
+
+                        </td>
+
+                        <td>
+
+                            ₹{{ product.price }}
+
+                        </td>
+
+                        <td>
+
+                            {{ product.stock }}
+
+                        </td>
+
+                        <td>
+
+                            {% if product.is_available %}
+
+                            <span class="badge bg-dark">
+
+                                Active
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                Out of Stock
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a href="{% url 'edit_product' product.id %}"
+
+                               class="btn btn-sm btn-dark">
+
+                                Edit
+
+                            </a>
+
+                            <a href="{% url 'delete_product' product.id %}"
+
+                               class="btn btn-sm btn-outline-dark">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center py-5">
+
+                            No Products Added Yet
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

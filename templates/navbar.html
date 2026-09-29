@@ -1,0 +1,161 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center gap-3" href="{% url 'home' %}">
+
+            <div class="logo-circle">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+
+            <div class="logo-text">
+                <div>
+                    <span class="logo-main">Campus</span>
+                    <span class="logo-accent">Kart</span>
+                </div>
+                <small>Student Marketplace</small>
+            </div>
+
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent"
+                aria-controls="navbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <!-- Navbar -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+
+            <!-- Search -->
+            <form class="search-box mx-auto"
+                  action="{% url 'search_products' %}"
+                  method="GET">
+
+                <input
+                    type="search"
+                    name="q"
+                    class="form-control"
+                    placeholder="Search books, laptops, notes..."
+                    value="{{ request.GET.q }}">
+
+                <button class="search-btn" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+
+            </form>
+
+            <!-- Right Menu -->
+            <ul class="navbar-nav align-items-center ms-auto">
+
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold"
+                       href="{% if user.is_authenticated %}{% url 'seller_dashboard' %}{% else %}{% url 'login' %}{% endif %}">
+                        Dashboard
+                    </a>
+                </li>
+
+                <!-- Sell -->
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold"
+                       href="{% if user.is_authenticated %}{% url 'add_product' %}{% else %}{% url 'login' %}{% endif %}">
+                        <i class="fas fa-store me-1"></i>
+                        Sell
+                    </a>
+                </li>
+
+                <!-- Wishlist -->
+                <li class="nav-item">
+                    <a class="nav-link nav-icon"
+                       href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'login' %}{% endif %}">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                </li>
+
+                <!-- Cart -->
+                <li class="nav-item">
+                    <a class="nav-link nav-icon"
+                       href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}{% url 'login' %}{% endif %}">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+
+                <!-- User Dropdown -->
+                <li class="nav-item dropdown ms-2">
+
+                    <a class="nav-link dropdown-toggle fw-semibold"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+
+                        <i class="fas fa-user-circle me-1"></i>
+                        {{ user.username }}
+
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'profile' %}">
+                                <i class="fas fa-user me-2"></i>
+                                My Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'seller_dashboard' %}">
+                                <i class="fas fa-chart-line me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'my_products' %}">
+                                <i class="fas fa-box me-2"></i>
+                                My Products
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                {% else %}
+
+                <!-- Login Button -->
+                <li class="nav-item ms-3">
+                    <a class="login-btn" href="{% url 'login' %}">
+                        Login
+                    </a>
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
